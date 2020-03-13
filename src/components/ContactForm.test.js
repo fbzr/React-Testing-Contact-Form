@@ -36,7 +36,7 @@ test('fills out form and submits it', async () => {
     const messageInput = getByLabelText(/message*/i);
 
     fireEvent.change(fNameInput, {
-        target: { name: 'firstName', value: 'Fido' }
+        target: { name: 'firstName', value: 'Fndsd' }
     });
     fireEvent.change(lNameInput, {
         target: { name: 'lastName', value: 'Bezerra' }
@@ -50,11 +50,16 @@ test('fills out form and submits it', async () => {
 
     fireEvent.click(getByTestId('submitButton'));
 
+    let errors = [];
     try {
-        const errors = await findAllByText(/error/i);
-        errors.forEach(error => console.log(error.textContent))
-    } catch(err) {
+        errors = await findAllByText(/error/i);
+    } catch(err) { // It means findAllByText('error') didn't find anything
         console.log('no errors')
-    }    
+    } 
+    if (errors.length > 0) {
+        throw 'There was an error in one of the inputs values'
+    }
+    
+    
 
 })
